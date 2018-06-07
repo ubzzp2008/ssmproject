@@ -1,0 +1,70 @@
+.modal.modal940 { width: 940px!important; margin-left: -470px; }
+/*组件局部css*/
+.sortarea { height: 250px; overflow: auto; }
+.sortlist, .sortlist li { padding: 0; margin: 0; list-style: none; }
+.sortlist li input { vertical-align: top; }
+.sortlist li .t { vertical-align: middle; cursor: pointer; display: inline-block !important; }
+.sortlist li.current .t { color: #3879D9; }
+
+/** 遮罩div样式 */
+.shadeDiv { filter: alpha(opacity=6); -moz-opacity: 0.3; opacity: 0.3; background-color: #000;	/*width:100%;height:100%;*/ z-index: 1000; position: absolute; left: 0; top: 0; display: none; overflow: hidden; }
+.loadingDiv { background-color: #fff; border: 1px solid #94C7DA; padding: 10px; width: 180px; z-index: 1001; position: absolute; display: none;	/*top:40%; left:45%;*/ vertical-align: middle; }
+.loadingDiv span { font-size: 14px; color: #bec0bf;	/*font-weight: bold;*/ }
+.ui-menu .ui-menu-item a { color: #333; font-size: 12px; }
+.ui-jqgrid  td input[type="text"] { height: 20px !important }
+
+/*验证信息*/
+.Validform_checktip { margin-left: 8px; line-height: 20px; height: 20px; overflow: hidden; color: #999; font-size: 12px; }
+.Validform_right { display: none; color: #71b83d; padding-left: 20px; background: url(../img/right.png) no-repeat left center; }
+.Validform_wrong { color: red; padding-left: 20px; white-space: nowrap; background: url(../img/error.png) no-repeat left center; }
+.Validform_loading { padding-left: 20px; background: url(../img/onLoad.gif) no-repeat left center; }
+.Validform_error { border-color: #b94a48 !important; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075) !important; -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075) !important; box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075) !important; }
+#Validform_msg { color: #7d8289; font: 12px/1.5 tahoma, arial, \5b8b\4f53, sans-serif; width: 280px; -webkit-box-shadow: 2px 2px 3px #aaa; -moz-box-shadow: 2px 2px 3px #aaa; background: #fff; position: absolute; top: 0px; right: 50px; z-index: 99999; display: none; filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#999999'); }
+#Validform_msg .iframe { position: absolute; left: 0px; top: -1px; z-index: -1; }
+#Validform_msg .Validform_title { line-height: 36px; height: 36px; text-align: left; font-weight: bold; padding: 0 8px; color: #fff; position: relative; background-color: #6EA7D1; font-size: 12px; }
+#Validform_msg a.Validform_close:link, #Validform_msg a.Validform_close:visited { line-height: 28px; position: absolute; right: 12px; top: 0px; font-size: 20px; font-weight: normal; color: #fff; text-decoration: none; }
+#Validform_msg a.Validform_close:hover { color: #cc0; }
+#Validform_msg .Validform_info { padding: 14px; border: 1px solid #6EA7D1; border-top: none; text-align: left; }
+
+/*图片上传*/
+.uploader-img-list { min-height:140px; padding: 10px; border:1px solid #ddd; overflow: hidden;}
+.thumbnail { width: 110px; height: 110px; }
+.thumbnail img { width: 100%; }
+.uploader-list { width: 100%; overflow: hidden; font-size: 12px; }
+.file-item { float: left; position: relative; margin: 0 10px 10px 0; padding: 4px; }
+.file-item .error { position: absolute; top: 4px; left: 4px; right: 4px; background: red; color: white; text-align: center; height: 20px; font-size: 14px; line-height: 23px; }
+.file-item .success { position: absolute; top: 4px; left: 4px; right: 4px; background: #4cae4c; color: white; text-align: center; height: 20px; font-size: 14px; line-height: 23px; }
+
+.file-item .info { position: absolute; left: 4px; bottom: 4px; right: 4px; height: 20px; line-height: 20px; text-indent: 5px; background: rgba(0, 0, 0, 0.6); color: white; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 12px; z-index: 10; }
+.up-successed { border-color: #4cae4c }
+.up-successed .icon-ok { position: absolute; right: 0; bottom: 0 }
+.up-successed:after { content: ""; font-style: normal; font-weight: normal; line-height: 1; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-size: 32px; position: absolute; bottom: 0; right: 4px; color: #4cae4c; z-index: 99; }
+
+.file-item .progress { position: absolute; right: 4px; bottom: 4px; height: 3px; left: 4px; height: 4px; overflow: hidden; z-index: 15; margin: 0; padding: 0; border-radius: 0; background: transparent; }
+.file-item .progress span { display: block; overflow: hidden; width: 0; height: 100%; background: #117fdd url(../img/progress.png) repeat-x; -webit-transition: width 200ms linear; -moz-transition: width 200ms linear; -o-transition: width 200ms linear; -ms-transition: width 200ms linear; transition: width 200ms linear; -webkit-animation: progressmove 2s linear infinite; -moz-animation: progressmove 2s linear infinite; -o-animation: progressmove 2s linear infinite; -ms-animation: progressmove 2s linear infinite; animation: progressmove 2s linear infinite; -webkit-transform: translateZ(0); }
+@-webkit-keyframes progressmove {
+	0% { background-position: 0 0; }
+	100% { background-position: 17px 0; }
+}
+@-moz-keyframes progressmove {
+	0% { background-position: 0 0; }
+	100% { background-position: 17px 0; }
+}
+@keyframes progressmove {
+	0% { background-position: 0 0; }
+	100% { background-position: 17px 0; }
+}
+/*加载中*/
+.loadingbox { position: fixed; z-index: 100000; left: 0; right: 0; top: 0; bottom: 0 ;}
+.loadingtext { position: absolute; left: 50%; margin-left: -90px; top:50%; margin-top: -70px; width: 180px; padding: 10px 0; background-color: #fff; text-align: center; border-radius: 5px; z-index:99999; }
+.loadingtext img { vertical-align: middle; }
+.loadingbox .loadingbg { position: absolute; left: 0; right: 0;top: 0;bottom: 0; z-index: 99998; background-color: #000; opacity: 0.5; filter:Alpha(opacity=50); }
+
+/*营销宣传*/
+.adbox { position: fixed; z-index: 10000; left: 0; right: 0; top: 0; bottom: 0 ;}
+.adtext { position: absolute; z-index: 10002; left: 50%; top:50%; }
+.adtext .adclose { position: absolute; right: -10px; top: 15px ; width: 29px; height: 29px; background: url(../img/icon_adclose.png) no-repeat; cursor: pointer;}
+.adbg {position: fixed; z-index: 10001; left: 0; right: 0; top: 0; bottom: 0 ; background: #000; opacity: 0.5 ; filter:Alpha(opacity=50);}
+.adtext img { vertical-align: middle; }
+
+

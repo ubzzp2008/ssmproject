@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.system.web.dao.system.MenuDao">
+
+	 <resultMap type="TMenu" id="menuResult">
+			<result	property="id"	column="ID"	/>
+			<result	property="name"	column="NAME"	/>
+			<result	property="seq"	column="SEQ"	/>
+			<result	property="status"	column="STATUS"	/>
+			<result	property="url"	column="URL"	/>
+			<result property="levele" column="LEVELE" />
+			<result	property="pid"	column="PID"	/>  
+			<result	property="pname"	column="pname"	/>  
+			<result	property="description"	column="DESCRIPTION"	/>
+			<result	property="addUser"	column="ADD_USER"	/>
+			<result	property="addDate"	column="ADD_DATE"	/>
+			<result	property="updateUser"	column="UPDATE_USER"	/>
+			<result	property="updateDate"	column="UPDATE_DATE"	/>
+	</resultMap>
+	
+	<!-- 	分页查询列表数据 -->
+ <select id="getPageMenuList" resultMap="menuResult"  parameterType="Menu">
+		select
+			m.id,
+			m.name,
+			m.seq,
+			m.status,
+			m.url,
+			m.levele,
+			m.pid,
+			t.name pname,
+			m.description,
+			m.add_user,
+			m.add_date,
+			m.update_user,
+			m.update_date
+		from  t_menu m  left join  t_menu t on m.pid=t.id
+	   where 1=1
+			<if test="name!=null">
+				and m.name like '%${name}%'
+			</if>
+			<if test="pname!=null">
+				and t.name like '%${pname}%'
+			</if>
+			<if test="url!=null">
+				and m.url like '%${url}%'
+			</if>
+		order by m.levele,m.seq
+	</select>
+	
+	<select id="getPageMenuList_count" resultType="java.lang.Integer"  parameterType="Menu">
+		select
+			count(*)
+		from  t_menu m  left join  t_menu t on m.pid=t.id
+	   where 1=1
+			<if test="name!=null">
+				and m.name like '%${name}%'
+			</if>
+			<if test="pname!=null">
+				and t.name like '%${pname}%'
+			</if>
+			<if test="url!=null">
+				and m.url like '%${url}%'
+			</if>
+	</select> 
+	
+<!-- 	根据菜单层级获取菜单 -->
+	<select id="getMenuByLevele" resultMap="menuResult"  parameterType="java.lang.Integer">
+		select
+			id,
+			name,
+			seq,
+			status,
+			url,
+			levele,
+			pid,
+			description,
+			add_user,
+			add_date,
+			update_user,
+			update_date
+		from
+			t_menu
+	   where levele=#{levele,jdbcType=INTEGER}
+		order by seq
+	</select>
+	
+<!-- 	保存菜单信息-->
+<insert id="saveMenuInfo" useGeneratedKeys="true" keyProperty="id"  parameterType="TMenu">
+		INSERT INTO  t_menu 
+		(
+			name,
+			seq,
+			status,
+			url,
+			levele,
+			pid,
+			description,
+			add_user,
+			add_date
+		) VALUES (
+			#{name},
+			#{seq},
+			#{status},
+			#{url},
+			#{levele},
+			#{pid},
+			#{description},
+			#{addUser},
+			#{addDate}
+		)
+	</insert>
+	
+<!-- 	根据ID获取菜单信息 -->
+	<select id="getMenuInfoById" resultType="TMenu"  parameterType="java.lang.Integer">
+		select 
+			id,
+			name ,
+			seq,
+			status,
+			url,
+			levele,
+			pid,
+			description,
+			add_user addUser,
+			add_date addDate,
+			update_user updateUser,
+			update_date updateDate
+		from 
+			t_menu
+		where id=#{id,jdbcType=INTEGER}
+	</select>  
+	
+<!-- 	修改菜单信息 -->
+	<update id="updateMenuInfo" parameterType="TMenu">
+		update t_menu set 
+			name = #{name},
+			seq = #{seq},
+			status = #{status},
+			url = #{url},
+			levele = #{levele},
+			pid = #{pid},
+			description = #{description},
+			update_user = #{updateUser},
+			update_date = #{updateDate}
+		where 
+			  id=#{id,jdbcType=INTEGER}
+	</update>
+	
+<!-- 	 根据主键ID删除菜单及其下级菜单 -->
+	<delete id="deleteMenuInfoByIds" parameterType="java.util.List">
+		delete from  t_menu  where id in 
+		<foreach collection="list" item="id" index="index"  open="(" close=")" separator=",">
+            ${id}
+        </foreach>
+	</delete>
+	
+<!-- 	根据用户ID获取菜单信息 -->
+	<select id="findMenuByUserId" resultMap="menuResult"  parameterType="java.lang.Integer">
+		select 
+			tm.id,
+			tm.name ,
+			tm.seq,
+			tm.status,
+			tm.url,
+			tm.levele,
+			tm.pid,
+			tm.description,
+			tm.add_user addUser,
+			tm.add_date addDate,
+			tm.update_user updateUser,
+			tm.update_date updateDate
+		from 
+				t_user_role tur,
+				t_role_menu trm,
+				t_menu tm
+ 		where 
+ 				tur.role_id=trm.role_id and trm.menu_id=tm.id and tur.user_id=#{id,jdbcType=INTEGER}
+		order by 
+				levele,seq
+	</select>  
+
+</mapper>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.system.web.dao.system.RoleDao">
+
+	 <resultMap type="TRole" id="roleResult">
+			<result	property="id"	column="ID"	/>
+			<result	property="roleName"	column="ROLE_NAME"	/>
+			<result	property="roleDesc"	column="ROLE_DESC"	/>
+			<result	property="status"	column="STATUS"	/>
+			<result	property="addUser"	column="ADD_USER"	/>
+			<result	property="addDate"	column="ADD_DATE"	/>
+			<result	property="updateUser"	column="UPDATE_USER"	/>
+			<result	property="updateDate"	column="UPDATE_DATE"	/>
+	</resultMap>
+	
+	<!-- 	分页查询列表数据 -->
+ <select id="getPageRoleList" resultMap="roleResult"  parameterType="Role">
+		select
+			id,
+			role_name,
+			role_desc,
+			status,
+			add_user,
+			add_date,
+			update_user,
+			update_date
+		from  t_role
+	   where 1=1
+			<if test="roleName!=null">
+				and ROLE_NAME like '%${roleName}%'
+			</if>
+			<if test="roleDesc!=null">
+				and ROLE_DESC like '%${roleDesc}%'
+			</if>
+			<if test="status!=null">
+				and STATUS = #{status}
+			</if>
+		order by id
+	</select>
+	
+	<select id="getPageRoleList_count" resultType="java.lang.Integer"  parameterType="Role">
+		select
+			count(*)
+		from  t_role m 
+	   where 1=1
+			<if test="roleName!=null">
+				and ROLE_NAME like '%${roleName}%'
+			</if>
+			<if test="roleDesc!=null">
+				and ROLE_DESC like '%${roleDesc}%'
+			</if>
+			<if test="status!=null">
+				and STATUS = #{status}
+			</if>
+	</select> 
+	
+		
+<!-- 	保存菜单信息-->
+<insert id="saveRoleInfo" useGeneratedKeys="true" keyProperty="id"  parameterType="TRole">
+		INSERT INTO  t_role 
+		(
+			role_name,
+			role_desc,
+			status,
+			add_user,
+			add_date
+		) VALUES (
+			#{roleName},
+			#{roleDesc},
+			#{status},
+			#{addUser},
+			#{addDate}
+		)
+	</insert>
+	
+<!-- 	根据ID获取角色信息 -->
+	<select id="getRoleInfoById" resultType="TRole"  parameterType="java.lang.Integer">
+		select 
+			id,
+			role_name roleName ,
+			role_desc roleDesc ,
+			status,
+			add_user addUser,
+			add_date addDate,
+			update_user updateUser,
+			update_date updateDate
+		from 
+			t_role
+		where id=#{id,jdbcType=INTEGER}
+	</select>  
+	
+<!-- 	修改角色信息 -->
+	<update id="updateRoleInfo" parameterType="TRole">
+		update t_role set 
+			role_name = #{roleName},
+			role_desc = #{roleDesc},
+			status = #{status},
+			update_user = #{updateUser},
+			update_date = #{updateDate}
+		where 
+			  id=#{id,jdbcType=INTEGER}
+	</update>
+	
+<!-- 	 根据主键ID删除角色 -->
+	<delete id="deleteRoleInfoByIds" parameterType="java.util.List">
+		delete from  t_role  where id in 
+		<foreach collection="list" item="id" index="index"  open="(" close=")" separator=",">
+            ${id}
+        </foreach>
+	</delete>
+	
+<!--     获取角色集合 -->
+	<select id="getRoleInfoList" resultMap="roleResult">
+		select
+			id,
+			role_name,
+			role_desc,
+			status,
+			add_user,
+			add_date,
+			update_user,
+			update_date
+		from  t_role
+	</select>
+	
+</mapper>

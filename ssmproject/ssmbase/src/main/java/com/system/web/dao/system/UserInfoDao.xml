@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper  namespace="com.system.web.dao.system.UserInfoDao">
+
+	 <resultMap type="TUserInfo" id="userInfoResult">
+			<result	property="id"	column="ID"	/>
+			<result	property="userName"	column="USERNAME"	/>
+			<result	property="realName"	column="REALNAME"	/>
+			<result	property="password"	column="PASSWORD"	/>
+			<result	property="status"	column="STATUS"	/>
+			<result	property="phone"	column="PHONE"	/>
+			<result	property="addUser"	column="ADD_USER"	/>
+			<result	property="addDate"	column="ADD_DATE"	/>
+			<result	property="updateUser"	column="UPDATE_USER"	/>
+			<result	property="updateDate"	column="UPDATE_DATE"	/>
+	</resultMap>
+	
+<!-- 	获取用户总数 如果返回0 则需要进行数据初始化 -->
+	<select id="getCountUserInfo" resultType="java.lang.Long">
+		SELECT
+			count(*)
+		FROM
+			t_user_info 
+	</select>
+	
+	<!-- 	根据用户名、密码检查启用的用户 -->
+	<select id="checkUserExits" resultType="TUserInfo" parameterType="java.util.Map">
+		select
+			id,username,realname,password,status,phone
+		from
+			t_user_info
+		where
+			status=0 and
+		    username=upper(#{userName}) and
+		    password=#{password}
+	</select>
+	
+<!-- 	分页查询列表数据 -->
+ <select id="getPageUserInfoList" resultMap="userInfoResult"  parameterType="UserInfo">
+		select
+			id,
+			username,
+			realname,
+			status,
+			phone,
+			add_user,
+			add_date,
+			update_user,
+			update_date
+		from
+			t_user_info
+	   where 1=1
+			<if test="userName!=null">
+				and username like '%${userName}%'
+			</if>
+			<if test="realName!=null">
+				and realName like '%${realName}%'
+			</if>
+		order by status
+	</select>
+	
+	<select id="getPageUserInfoList_count" resultType="java.lang.Integer"  parameterType="UserInfo">
+		select
+			count(*)
+		from
+			t_user_info
+	   where 1=1
+			<if test="userName!=null">
+				and username like '%${userName}%'
+			</if>
+			<if test="realName!=null">
+				and realName like '%${realName}%'
+			</if>
+	</select> 
+	
+<!-- 	保存用户信息 存储的时候，将用户名统一转大写进行存储-->
+<insert id="saveUserInfo" useGeneratedKeys="true" keyProperty="id"  parameterType="TUserInfo">
+		INSERT INTO  t_user_info 
+		(
+			username,
+			realname,
+			password,
+			status,
+			phone,
+			add_user,
+			add_date
+		) VALUES (
+			upper(#{userName}),
+			#{realName},
+			#{password},
+			#{status},
+			#{phone},
+			#{addUser},
+			#{addDate}
+		)
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select LAST_INSERT_ID() 
+		</selectKey> 
+	</insert>
+	
+<!-- 	根据id获取用户信息 -->
+	<select id="getUserInfoById" resultType="TUserInfo"  parameterType="java.lang.Integer">
+		select 
+			id id,
+			username	userName,
+			realname	realName,
+			status	status,
+			phone	phone
+		from 
+			t_user_info
+		where id=#{id,jdbcType=INTEGER}
+	</select>   
+	
+<!-- 	修改用户信息 -->
+	<update id="updateUserInfo" parameterType="TUserInfo">
+		update t_user_info set 
+			username=#{userName},
+			realname=#{realName},
+			status=#{status},
+			phone=#{phone},
+			update_user=#{updateUser},
+			update_date=#{updateDate}
+		where 
+			  id=#{id,jdbcType=INTEGER}
+	</update>
+	
+<!-- 	根据ids删除用户信息 -->
+	<delete id="deleteUserInfoByIds" parameterType="java.util.List">
+		delete from  t_user_info  where id in 
+		<foreach collection="list" item="id" index="index"  open="(" close=")" separator=",">
+            ${id}
+        </foreach>
+	</delete>
+
+</mapper>

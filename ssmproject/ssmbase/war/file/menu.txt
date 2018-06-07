@@ -1,0 +1,4 @@
+用户管理：/userInfoController/page/userInfoList
+菜单管理：/menuController/page/menuList
+角色管理：/roleController/page/roleList
+功能权限管理：/roleMenuController/page/roleMenuList
